@@ -15,16 +15,16 @@ const z4 = 'https://www.guahao.com/expert/95d7cbfc-2990-4dd4-b19e-59c74cea97e100
 const test = 'https://www.guahao.com/expert/9e44bf23-db09-4e81-986e-d0392ed4d6d6000?hospDeptId=65943d2c-b4e7-4f76-8051-1a34631b4373000&hospitalId=ce1fa639-29f5-4443-a76c-2006e445206e000#guahao'
 
 const  scheduleCronstyle = ()=>{
-    // schedule.scheduleJob('58 29 7 * * *',()=>{
-    //     console.log('scheduleCronstyle:' + new Date());
-    //     run(z6)
-    // }); 
+    schedule.scheduleJob('58 29 7 * * *',()=>{
+        console.log('scheduleCronstyle:' + new Date());
+        run(z6)
+    }); 
     schedule.scheduleJob('58 29 7 * * *',()=>{
       run(z4)
   }); 
 }
-run(test)
-// scheduleCronstyle();
+// run(test)
+scheduleCronstyle();
 async function run(url=test) {
   const browser = await puppeteer.launch({
     executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
