@@ -1,17 +1,16 @@
 const puppeteer = require('puppeteer-core');
 const schedule = require('node-schedule');
 const { createWorker } = require('tesseract.js');
-const cookie = require('./cookie')
+const cookie = require('./cookie-wx')
 
 const worker = createWorker();
 
 const startTime=new Date()
-const url='https://h5.shqmxx.com/Resource.aspx?CustomerId=94&Pri=DD.rqcF/6iOr6WVgbQMBKQ0NMIyFGWwzlB0IuuSrURManmJ2fVGOZETpXSDvs0m94KIUHhSnLUWvgJ4B1Em8JIPVWi7tEHYkXxmTUlJaXEAMqxcQiDK/P2hRHomypZaH30SDFrxu3sGnNgr7QYa9IZxwolMVSjFNntyVBb1LOCyMSlKaz/XKkzqo9kuWqAymfouqznWCm7LFng_qFn8zwAQ8qad/K/vyvOrHPXygsghbQ7K7nMSW0h8j/ybFe9VPggloV5OWm9IZmmUPOYOeMnGNRWs7tw03rm8O5fQ4KNyk5ILXLdGkXgRsA==&UiServiceId=gh_79eafca4e31a&UItype=wx&IsMenu=1&Version=1.1'
-// const url="https://h5.shqmxx.com/Resource.aspx?CustomerId=94&Pri=DD.rqcF/6iOr6WVgbQMBKQ0NMIyFGWwzlB0IuuSrURManmJ2fVGOZETpXSDvs0m94KIUHhSnLUWvgJ4B1Em8JIPVWi7tEHYkXxmTUlJaXEAMqxcQiDK/P2hRHomypZaH30SdZGZwCw_o2vSS9WvSSoUTiGcaM7lK1stVeIS7qQLm/bVbGDWNm1bIIPdducWUd1FllkwMCCKWau7ZQr8/8c1q5ouvsLSS1tdisq6lsssdYixC0WprE1FkKBAbZUU07bput8Uu69oxl9y1IaSeLgZnw==&UiServiceId=gh_79eafca4e31a&UItype=wx&IsMenu=1&Version=1.1"
+const url='https://h5.shqmxx.com/Resource.aspx?CustomerId=94&Pri=DD.EJxmsmZnYsr3cUcm6DdY2BtBo5H5t6N2wWHOZSxFmbVRrZxW56SZQvl2s2hZICv3hZaV1p1gKUGVCIU7f5SBFLbxlrymlJI0mCqyyCYbiSvtsbxmmmkF_34PDI3uln3LTMlflFVNwvrV5V4K6xqs12_5SvK6nty9MI4VlkMEalHXr/GkpFXcUluyHXVHcqQIbDgg0VbyICxDEkEXcO/PRcsgsS8/Lo30JV0WIS5Gzkrlp6nMsFzs7kn_GFDyE69CYtYARlV5oP8=&UiServiceId=gh_79eafca4e31a&UItype=wx&IsMenu=1&Version=1.1'
 const  scheduleCronstyle = ()=>{
-    schedule.scheduleJob('58 29 7 * * *',()=>{
+    schedule.scheduleJob('59 29 7 * * *',()=>{
         console.log('scheduleCronstyle:' + new Date());
-        run(z6)
+        run()
     });  
 }
 run()
@@ -43,17 +42,22 @@ async function run() {
   await page.waitForNavigation({
       waitUntil: 'load'
   })
+  let n=0
   const fn=async()=>{
-    await page.waitForSelector('.list-item.list-button[data-pri]').then(() => console.log('button加载了'));
-    await page.click('.list-item.list-button[data-pri]');
-  
+    await page.waitForSelector('.list-item.list-button')
     const hasClick=await page.$('.list-item.list-button[data-pri]')
     if(hasClick===null){
-      console.log(111)
+      console.log(n)
+      if(n>30) return
+      n=n+1
       await page.reload()
       await fn()
       return
     }
+    await page.waitForSelector('.list-item.list-button[data-pri]').then(() => console.log('button加载了')).catch(error=>console.log("hhhhh",error));
+    await page.click('.list-item.list-button[data-pri]');
+  
+ 
     try {
 
       await page.waitForSelector('.data-alert.alert-body.list-icon-round',{visible:true})
